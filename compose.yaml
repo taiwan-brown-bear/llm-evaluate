@@ -10,8 +10,8 @@ services:
       MYSQL_DATABASE: llm_evaluate_database
     ports:
       - "3307:3306"
-    volumes:
-      - llm-evaluate-mysql-data:/var/lib/llm_evaluate_mysql
-
-volumes:
-  llm-evaluate-mysql-data:
+#    volumes:
+#      - llm-evaluate-mysql-data:/var/lib/llm_evaluate_mysql
+#
+#volumes:
+#  llm-evaluate-mysql-data:
