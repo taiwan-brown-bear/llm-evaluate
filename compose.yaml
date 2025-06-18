@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  mysql:
+    image: mysql:latest
+    container_name: llm-evaluate-mysql-container
+    environment:
+      MYSQL_ROOT_PASSWORD: llm-evaluate-secret-pw
+      # uncomment below if you want to automatically create and select a database
+      MYSQL_DATABASE: llm_evaluate_database
+    ports:
+      - "3307:3306"
+    volumes:
+      - llm-evaluate-mysql-data:/var/lib/llm_evaluate_mysql
+
+volumes:
+  llm-evaluate-mysql-data:
