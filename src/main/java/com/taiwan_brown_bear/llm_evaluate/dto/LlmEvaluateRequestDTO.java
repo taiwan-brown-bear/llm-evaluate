@@ -7,6 +7,6 @@ import lombok.Setter;
 @Getter
 public class LlmEvaluateRequestDTO {
     private Integer requestId;
-    private String request;
-    private String systemMessage;
+    private String  request;
+    private String  systemMessage;
 }
