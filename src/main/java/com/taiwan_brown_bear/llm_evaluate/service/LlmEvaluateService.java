@@ -26,10 +26,11 @@ public class LlmEvaluateService {
         LlmEvaluateRequestDAO savedRequest = llmEvaluateRequestRespository.save(llmEvaluateRequestDAO);
 
         // convert dao -> dto
-        return new LlmEvaluateResponseDTO(
-                savedRequest.getRequestId(),
-                savedRequest.getRequest(),
-                savedRequest.getSystemMessage());
+        return LlmEvaluateResponseDTO.builder()
+                .requestId(savedRequest.getRequestId())
+                .request(savedRequest.getRequest())
+                .systemMessage(savedRequest.getSystemMessage())
+                .build();
     }
 
     public LlmEvaluateResponseDTO load(LlmEvaluateRequestDTO llmEvaluateRequestDTO){
@@ -39,10 +40,11 @@ public class LlmEvaluateService {
         if(requestId != null) {
             Optional<LlmEvaluateRequestDAO> loadedRequest = llmEvaluateRequestRespository.findById(requestId);
             if (loadedRequest.isPresent()) {
-                return new LlmEvaluateResponseDTO(
-                        loadedRequest.get().getRequestId(),
-                        loadedRequest.get().getRequest(),
-                        loadedRequest.get().getSystemMessage());
+                return LlmEvaluateResponseDTO.builder()
+                        .requestId(loadedRequest.get().getRequestId())
+                        .request(loadedRequest.get().getRequest())
+                        .systemMessage(loadedRequest.get().getSystemMessage())
+                        .build();
             }
         }
 
