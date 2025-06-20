@@ -57,7 +57,7 @@ public abstract class LlmModel {
         try {
             evaluationResult = objectMapper.readValue(evaluationModelResponse, LlmPromptSystemMessageTemplate.EvaluationResult.class);
         } catch (JsonProcessingException jsonProcessingException) {
-
+            log.warn("failed to parse the response, " + evaluationModelResponse);
         }
 
         log.debug("evaluationResult: {}", evaluationResult);
@@ -65,6 +65,8 @@ public abstract class LlmModel {
             return new LlmEvaluateResultDTO(evaluationModel, systemMsg, evaluationModelResponse);
         }
         return new LlmEvaluateResultDTO(
+                null,
+                null,
                 evaluationModel,
                 systemMsg,
                 evaluationModelResponse,

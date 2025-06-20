@@ -4,16 +4,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 public record LlmEvaluateResultDTO(
+        String targetModel,
+        String targetModelResponse,
         String evaluatedBy,
         String guidelineForEvaluation,
         String evaluationResult,
         Boolean isValid,
         List<String> issues,
-        String confidence) {
-    public LlmEvaluateResultDTO(String evaluatedBy, String guidelineForEvaluation, String evaluationResult){
-        this(evaluatedBy, guidelineForEvaluation, evaluationResult, null, null, null);
+        Double confidence) {
+    public LlmEvaluateResultDTO(String targetModel, String targetModelResponse, String evaluatedBy, String guidelineForEvaluation, String evaluationResult){
+        this(targetModel, targetModelResponse, evaluatedBy, guidelineForEvaluation, evaluationResult, null, null, null);
     }
-    public LlmEvaluateResultDTO(String issue){
-        this(null, null, null, false, List.of(issue), null);
+    public LlmEvaluateResultDTO(String targetModel, String targetModelResponse, String issue){
+        this(targetModel, targetModelResponse, null, null, null, false, List.of(issue), null);
     }
 }

@@ -18,7 +18,7 @@ public class LlmPromptSystemMessageTemplate {
                 """;
         private Boolean      isValid;
         private List<String> issues;
-        private String       confidence;
+        private Double       confidence;
     }
 
     public static String getGuidelineForEvaluation(String originalPrompt, String response, String jsonFormat) {

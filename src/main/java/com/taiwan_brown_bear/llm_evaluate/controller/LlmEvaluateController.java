@@ -31,28 +31,29 @@ public class LlmEvaluateController {
 
         final Integer requestId = llmEvaluateResponseDTO.getRequestId();
         if(requestId != null){
-            for(LlmModel answerModel : llmModels)
+            for(LlmModel targetModel : llmModels)
             {
                 final String userProvidedSystemMsg = llmEvaluateRequestDTO.getSystemMessage();
                 final String userProvidedUserMsg   = llmEvaluateRequestDTO.getRequest();
-                final LlmEvaluateResultDTO answerModelResponse   = answerModel.getResponse(userProvidedSystemMsg, userProvidedUserMsg);
-                log.info("answerModel:{}\t returning \"{}\".", answerModel, answerModelResponse.evaluationResult());
+                final LlmEvaluateResultDTO targetModelResponse   = targetModel.getResponse(userProvidedSystemMsg, userProvidedUserMsg);
+                log.info("answerModel:{}\t returning \"{}\".", targetModel, targetModelResponse.evaluationResult());
 
                 List<LlmEvaluateResultDTO> evaluationResutls = new ArrayList<>();
                 for(LlmModel evalModel : llmModels){
                     try {
-                        LlmEvaluateResultDTO evaluationModelResponse = evalModel.getEvaluationResult(userProvidedUserMsg, answerModelResponse.evaluationResult());
-                        log.info("evaluationModel:{}\t returning \"{}\".", evalModel, evaluationModelResponse.evaluationResult());
-                        evaluationResutls.add(evaluationModelResponse);
+                        LlmEvaluateResultDTO llmEvaluateResult = evalModel.getEvaluationResult(userProvidedUserMsg, targetModelResponse.evaluationResult());
+                        log.info("evaluationModel:{}\t returning \"{}\".", evalModel, llmEvaluateResult.evaluationResult());
+                        evaluationResutls.add(llmEvaluateResult);
                     } catch (NonTransientAiException nonTransientAiException) {
                         log.warn("failed to evaluate the llm evaluatedBy response due to {}",
                                 nonTransientAiException.getMessage(), nonTransientAiException);
-                        evaluationResutls.add(new LlmEvaluateResultDTO(nonTransientAiException.getMessage()));
+                        evaluationResutls.add(new LlmEvaluateResultDTO(
+                                targetModelResponse.evaluatedBy(),
+                                targetModelResponse.evaluationResult(),
+                                nonTransientAiException.getMessage()));
                     }
                 }
                 llmEvaluateResponseDTO = llmEvaluateResponseDTO.toBuilder()
-                        .targetModel(answerModelResponse.evaluatedBy())
-                        .targetModelResponse(answerModelResponse.evaluationResult())
                         .targetModelEvaluationResults(evaluationResutls)
                         .build();
             }
