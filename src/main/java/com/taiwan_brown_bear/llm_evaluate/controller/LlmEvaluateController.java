@@ -4,7 +4,7 @@ import com.taiwan_brown_bear.llm_evaluate.dto.LlmEvaluateRequestDTO;
 import com.taiwan_brown_bear.llm_evaluate.dto.LlmEvaluateResponseDTO;
 import com.taiwan_brown_bear.llm_evaluate.service.llm.LlmModel;
 import com.taiwan_brown_bear.llm_evaluate.service.LlmEvaluateService;
-import com.taiwan_brown_bear.llm_evaluate.dto.LlmModelResponseDTO;
+import com.taiwan_brown_bear.llm_evaluate.dto.LlmEvaluateResultDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.ai.retry.NonTransientAiException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,25 +35,25 @@ public class LlmEvaluateController {
             {
                 final String userProvidedSystemMsg = llmEvaluateRequestDTO.getSystemMessage();
                 final String userProvidedUserMsg   = llmEvaluateRequestDTO.getRequest();
-                final LlmModelResponseDTO answerModelResponse   = answerModel.getResponse(userProvidedSystemMsg, userProvidedUserMsg);
-                log.info("answerModel:{}\t returning \"{}\".", answerModel, answerModelResponse.resp());
+                final LlmEvaluateResultDTO answerModelResponse   = answerModel.getResponse(userProvidedSystemMsg, userProvidedUserMsg);
+                log.info("answerModel:{}\t returning \"{}\".", answerModel, answerModelResponse.evaluationResult());
 
-                List<LlmModelResponseDTO> evaluationResutls = new ArrayList<>();
+                List<LlmEvaluateResultDTO> evaluationResutls = new ArrayList<>();
                 for(LlmModel evalModel : llmModels){
                     try {
-                        LlmModelResponseDTO evaluationModelResponse = evalModel.getEvaluationResult(userProvidedUserMsg, answerModelResponse.resp());
-                        log.info("evaluationModel:{}\t returning \"{}\".", evalModel, evaluationModelResponse.resp());
+                        LlmEvaluateResultDTO evaluationModelResponse = evalModel.getEvaluationResult(userProvidedUserMsg, answerModelResponse.evaluationResult());
+                        log.info("evaluationModel:{}\t returning \"{}\".", evalModel, evaluationModelResponse.evaluationResult());
                         evaluationResutls.add(evaluationModelResponse);
                     } catch (NonTransientAiException nonTransientAiException) {
-                        log.warn("failed to evaluate the llm model response due to {}",
+                        log.warn("failed to evaluate the llm evaluatedBy response due to {}",
                                 nonTransientAiException.getMessage(), nonTransientAiException);
-                        evaluationResutls.add(new LlmModelResponseDTO(nonTransientAiException.getMessage()));
+                        evaluationResutls.add(new LlmEvaluateResultDTO(nonTransientAiException.getMessage()));
                     }
                 }
                 llmEvaluateResponseDTO = llmEvaluateResponseDTO.toBuilder()
-                        .answerModel(answerModelResponse.model())
-                        .answerResponse(answerModelResponse.resp())
-                        .evaluationModelResults(evaluationResutls)
+                        .targetModel(answerModelResponse.evaluatedBy())
+                        .targetModelResponse(answerModelResponse.evaluationResult())
+                        .targetModelEvaluationResults(evaluationResutls)
                         .build();
             }
         }

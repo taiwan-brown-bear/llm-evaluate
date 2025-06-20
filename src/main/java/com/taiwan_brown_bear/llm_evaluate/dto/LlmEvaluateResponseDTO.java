@@ -10,8 +10,8 @@ import java.util.List;
 public class LlmEvaluateResponseDTO {
     private Integer requestId;
     private String request;
-    private String  systemMessage;
-    private String answerModel;
-    private String answerResponse;
-    private List<LlmModelResponseDTO> evaluationModelResults;
+    private String systemMessage;
+    private String targetModel;
+    private String targetModelResponse;
+    private List<LlmEvaluateResultDTO> targetModelEvaluationResults;
 }
