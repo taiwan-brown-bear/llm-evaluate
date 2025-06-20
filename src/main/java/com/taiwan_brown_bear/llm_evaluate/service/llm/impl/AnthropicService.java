@@ -13,4 +13,20 @@ public class AnthropicService extends LlmModel {
         this.chatClient = ChatClient.create(chatModel);
     }
 
+    @Override
+    public String prepareResponse(String response){
+        // for Anthropic, from the observation,
+        // it might return a json as the following
+        //
+        // "```json\n{\n    \"isValid\": true,\n    \"issues\": [],\n    \"confidence\": 0.98\n}\n```"
+        // or       "{\n    \"isValid\": true,\n    \"issues\": [],\n    \"confidence\": 1.0\n}"
+        //
+        if (response != null               &&
+            response.startsWith("```json") &&
+            response.endsWith  ("```")     ){
+            response = response.substring("```json".length());
+            response = response.substring(0, response.length() - "```".length());
+        }
+        return response;
+    }
 }
