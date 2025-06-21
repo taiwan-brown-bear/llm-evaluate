@@ -1,10 +1,12 @@
 package com.taiwan_brown_bear.llm_evaluate.service;
 
 import com.taiwan_brown_bear.llm_evaluate.dao.LlmEvaluateRequestDAO;
+import com.taiwan_brown_bear.llm_evaluate.dao.LlmEvaluateResultDAO;
 import com.taiwan_brown_bear.llm_evaluate.dto.LlmEvaluateRequestDTO;
 import com.taiwan_brown_bear.llm_evaluate.dto.LlmEvaluateResponseDTO;
 import com.taiwan_brown_bear.llm_evaluate.dto.LlmEvaluateResultDTO;
 import com.taiwan_brown_bear.llm_evaluate.repository.LlmEvaluateRequestRespository;
+import com.taiwan_brown_bear.llm_evaluate.repository.LlmEvaluateResultRespository;
 import com.taiwan_brown_bear.llm_evaluate.service.llm.LlmModel;
 import com.taiwan_brown_bear.llm_evaluate.service.template.impl.LlmPromptGuidelineTemplateForModelEvaluation;
 import lombok.extern.slf4j.Slf4j;
@@ -24,6 +26,9 @@ public class LlmEvaluateService {
 
     @Autowired
     private LlmEvaluateRequestRespository llmEvaluateRequestRespository;
+
+    @Autowired
+    private LlmEvaluateResultRespository llmEvaluateResultRespository;
 
     public LlmEvaluateResponseDTO save(LlmEvaluateRequestDTO llmEvaluateRequestDTO) {
         // convert dto -> dao
@@ -71,13 +76,35 @@ public class LlmEvaluateService {
                 LlmEvaluateResultDTO llmEvaluateResult = evaluationModel.getResult(new LlmPromptGuidelineTemplateForModelEvaluation(), userProvidedUserMsg, targetModelResponse.getTargetModelResponse());
                 log.info("{} is evaluated by {} and the evaluation result is {}", targetModelResponse.getTargetModel(), llmEvaluateResult.getEvaluatedBy(), llmEvaluateResult.getEvaluationResult());
 
-                evaluationResutls.add(llmEvaluateResult.toBuilder()
+                llmEvaluateResult = llmEvaluateResult.toBuilder()
                         .targetModel(targetModelResponse.getTargetModel())
                         .targetModelResponse(targetModelResponse.getTargetModelResponse())
-                        .build()
-                );
+                        .build();
+
+                evaluationResutls.add(llmEvaluateResult);
+                save(llmEvaluateResponseDTO, llmEvaluateResult);
             }
         }
         return llmEvaluateResponseDTO.toBuilder().targetModelEvaluationResults(evaluationResutls).build();
+    }
+
+    public void save(LlmEvaluateResponseDTO llmEvaluateResponseDTO, LlmEvaluateResultDTO llmEvaluateResultDTO) {
+        // convert dto -> dao
+        LlmEvaluateResultDAO llmEvaluateResultDAO = LlmEvaluateResultDAO.builder()
+                .requestId             (llmEvaluateResponseDTO.getRequestId()           )
+                //.request               (llmEvaluateResponseDTO.getRequest()             )
+                //.systemMessage         (llmEvaluateResponseDTO.getSystemMessage()       )
+                .targetModel           (llmEvaluateResultDTO.getTargetModel()           )
+                //.targetModelResponse   (llmEvaluateResultDTO.getTargetModelResponse()   )
+                .evaluatedBy           (llmEvaluateResultDTO.getEvaluatedBy()           )
+                //.guidelineForEvaluation(llmEvaluateResultDTO.getGuidelineForEvaluation())
+                //.evaluationResult      (llmEvaluateResultDTO.getEvaluationResult()      )
+                .isValid               (llmEvaluateResultDTO.getIsValid()               )
+                //.issues                (llmEvaluateResultDTO.getIssues()                )
+                .confidence            (llmEvaluateResultDTO.getConfidence()            )
+                .build();;
+
+        // save dao
+        LlmEvaluateResultDAO savedResult = llmEvaluateResultRespository.save(llmEvaluateResultDAO);
     }
 }
