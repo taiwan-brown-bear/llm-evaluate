@@ -2,6 +2,8 @@ PROJECT: Given a Question, Ask LLMs to Evaluate the Answers from LLMs.
 
 ======================================================================
 
+Instruction to get started:
+
 step 1: clone the repos to IDE
 
 step 2: start ollama llm locally
