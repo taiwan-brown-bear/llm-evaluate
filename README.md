@@ -30,15 +30,15 @@ step 5: the response will have the reqeust id (e.g.,
 
 step 6: use the requestId to get the report by running the sql statement (e.g., 
 
-    mysql> select b.target_model, 
-                  b.evaluated_by, 
-                  b.confidence, 
-                  a.request, 
-                  a.system_message 
-    from llm_evaluate_requests a, llm_evaluate_results b 
+    mysql> select a.target_model, 
+                  a.evaluated_by, 
+                  a.confidence, 
+                  b.request, 
+                  b.system_message 
+    from llm_evaluate_results a, llm_evaluate_requests b
     where a.request_id = b.request_id 
           and 
-          a.request_id = 3052;
+          b.request_id = 3052;
 
     +----------------------------+----------------------------+------------+-------------------+------------------+
     | target_model               | evaluated_by               | confidence | request           | system_message   |
