@@ -6,12 +6,12 @@ step 3: set env. variables for llm api keys for openai llm and anthropic llm
 
 step 4: use curl to ask the question (e.g., 
 
-curl --location 'http://localhost:8080/llm/evaluate' \
---header 'Content-Type: application/json' \
---data '{
+    curl --location 'http://localhost:8080/llm/evaluate' \
+    --header 'Content-Type: application/json' \
+    --data '{
     "request": "where is Taiwan ?",
     "systemMessage": "you are a expert"
-}'
+    }'
 
 )
 
