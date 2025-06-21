@@ -17,8 +17,7 @@ curl --location 'http://localhost:8080/llm/evaluate' \
 
 step 5: the response will have the reqeust id (e.g.,
 
-{
-
+    {
     "requestId": 3052,
     "request": "where is Taiwan ?",
     "systemMessage": "you are a expert",
