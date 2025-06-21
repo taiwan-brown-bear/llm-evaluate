@@ -1,6 +1,9 @@
 step 1: clone the repos to IDE
+
 step 2: start ollama llm locally
+
 step 3: set env. variables for llm api keys for openai llm and anthropic llm
+
 step 4: use curl to ask the question (e.g., 
 
 curl --location 'http://localhost:8080/llm/evaluate' \
@@ -11,6 +14,7 @@ curl --location 'http://localhost:8080/llm/evaluate' \
 }'
 
 )
+
 step 5: the response will have the reqeust id (e.g.,
 
 {
