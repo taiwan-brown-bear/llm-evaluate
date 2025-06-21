@@ -2,7 +2,7 @@ PROJECT: Given a Question, Ask LLMs to Evaluate the Answers from LLMs.
 
 ======================================================================
 
-Instruction to get started:
+Below are the Quick Start steps:
 
 step 1: clone the repos to IDE
 
