@@ -1,4 +1,4 @@
-PROJECT: GIVEN A QUESTION, ASK LLMs TO EVALUATE THE ANSWERS FROM LLMs.
+PROJECT: Given a Question, Ask LLMs to Evaluate the Answer from LLMs.
 
 step 1: clone the repos to IDE
 
