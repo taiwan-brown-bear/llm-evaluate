@@ -27,9 +27,11 @@ step 5: the response will have the reqeust id (e.g.,
             "targetModelResponse": "Taiwan is an island...
 
 )
+
 step 6: use the requestId to get the report by running the sql statement (e.g., 
 
 mysql> select a.request, a.system_message, b.target_model, b.evaluated_by, b.confidence from llm_evaluate_requests a, llm_evaluate_results b where a.request_id = b.request_id and a.request_id = 3052;
+
 +-------------------+------------------+----------------------------+----------------------------+------------+
 | request           | system_message   | target_model               | evaluated_by               | confidence |
 +-------------------+------------------+----------------------------+----------------------------+------------+
@@ -43,6 +45,7 @@ mysql> select a.request, a.system_message, b.target_model, b.evaluated_by, b.con
 | where is Taiwan ? | you are a expert | gpt-4o-mini-2024-07-18     | tinyllama:latest           |       NULL |
 | where is Taiwan ? | you are a expert | gpt-4o-mini-2024-07-18     | gpt-4o-mini-2024-07-18     |          1 |
 +-------------------+------------------+----------------------------+----------------------------+------------+
+
 9 rows in set (0.025 sec)
 
 )
