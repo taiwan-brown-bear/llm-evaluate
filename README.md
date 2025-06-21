@@ -36,7 +36,7 @@ step 5: the response will have the reqeust id (e.g.,
 
 )
 
-step 6: use the requestId to get the report (including confidence score from LLMs) by running the sql statement (e.g., 
+step 6: use the requestId to get the report (including CONFIDENCE score from LLMs) by running the sql statement (e.g., 
 
     mysql> select a.target_model, 
                   a.evaluated_by, 
