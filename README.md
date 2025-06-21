@@ -1,3 +1,5 @@
+PROJECT: GIVEN A QUESTION, ASK LLMs TO EVALUATE THE ANSWERS FROM LLMs.
+
 step 1: clone the repos to IDE
 
 step 2: start ollama llm locally
