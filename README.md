@@ -30,9 +30,15 @@ step 5: the response will have the reqeust id (e.g.,
     "targetModelEvaluationResults": [
         {
             "targetModel": "claude-3-7-sonnet-20250219",
-            "targetModelResponse": "Taiwan is an island...
-            ...
-            ...
+            "targetModelResponse": "Taiwan is an island located in East Asia, about 180 kilometers (112 miles) off the southeastern coast of mainland China. It is situated between Japan and the Philippines in the western Pacific Ocean. Taiwan is separated from mainland China by the Taiwan Strait.",
+            "evaluatedBy": "claude-3-7-sonnet-20250219",
+            "guidelineForEvaluation": "You are a validation system. Analyze the following response to the prompt:\nOriginal Prompt: where is Taiwan ?\nResponse to Validate: Taiwan is an island located in East Asia, about 180 kilometers (112 miles) off the southeastern coast of mainland China. It is situated between Japan and the Philippines in the western Pacific Ocean. Taiwan is separated from mainland China by the Taiwan Strait.\n\nCheck for:\n1. Logical consistency\n2. Factual impossibilities\n3. Temporal contradictions\n\nRespond with a JSON object containing:\n{\n       \"isValid\": boolean,\n       \"issues\": [list of specific issues found],\n       \"confidence\": number between 0 and 1\n}\n",
+            "evaluationResult": "{\n    \"isValid\": true,\n    \"issues\": [],\n    \"confidence\": 0.98\n}",
+            "isValid": true,
+            "issues": [],
+            "confidence": 0.98
+        }, 
+        ...
 
 )
 
