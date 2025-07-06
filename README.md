@@ -6,7 +6,7 @@ Below are the Quick Start steps:
 
 step 1: clone the repos to IDE
 
-step 2: start ollama llm locally
+step 2: start ollama llm locally (use "ollama start" command to start ollama server)
 
 step 3: set env. variables for llm api keys for openai llm and anthropic llm
 
