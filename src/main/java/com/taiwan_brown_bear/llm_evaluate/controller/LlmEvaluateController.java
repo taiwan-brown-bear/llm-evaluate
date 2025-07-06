@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/llm/evaluate")
+@RequestMapping("/llm-evaluate-result")
 public class LlmEvaluateController {
 
     @Autowired
     private LlmEvaluateService llmEvaluateService;
 
-    @PostMapping
+    @GetMapping
     public ResponseEntity<LlmEvaluateResponseDTO> evaluate(@RequestBody LlmEvaluateRequestDTO llmEvaluateRequestDTO) 
     {
         LlmEvaluateResponseDTO llmEvaluateResponseDTO = llmEvaluateService.save(llmEvaluateRequestDTO);
@@ -31,9 +31,9 @@ public class LlmEvaluateController {
         return ResponseEntity.ok(llmEvaluateResponseDTO);
     }
 
-    @GetMapping
-    public ResponseEntity<LlmEvaluateResponseDTO> get(@RequestBody LlmEvaluateRequestDTO llmEvaluateRequestDTO) {
-        LlmEvaluateResponseDTO llmEvaluateResponseDTO =  llmEvaluateService.load(llmEvaluateRequestDTO);
-        return ResponseEntity.ok(llmEvaluateResponseDTO);
-    }
+//    @GetMapping
+//    public ResponseEntity<LlmEvaluateResponseDTO> get(@RequestBody LlmEvaluateRequestDTO llmEvaluateRequestDTO) {
+//        LlmEvaluateResponseDTO llmEvaluateResponseDTO =  llmEvaluateService.load(llmEvaluateRequestDTO);
+//        return ResponseEntity.ok(llmEvaluateResponseDTO);
+//    }
 }
